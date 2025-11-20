@@ -429,8 +429,7 @@
                 await initDB(); await loadState();
                 const currentUserId = tg ? tg.initDataUnsafe?.user?.id : null;
                 if (currentUserId) {
-                    if (!state.originalUserId) { state.originalUserId = currentUserId; await saveState(); } 
-                    else if (state.originalUserId !== currentUserId) { document.getElementById('multiAccountModal').style.display = 'flex'; return; }
+                    
                 }
                 
                 await handleReferral();
