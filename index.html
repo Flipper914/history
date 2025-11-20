@@ -275,7 +275,7 @@
         // --- GLOBAL STATE & ELEMENTS ---
         const tg = window.Telegram ? window.Telegram.WebApp : null;
         let state = { totalEarning: 0.0, adCount: 0, adsWatchedToday: 0, lastAdWatchedDate: null, withdrawalHistory: [], rewardedReferrals: 0, originalUserId: null, microTaskCooldowns: {} };
-        const dbName = 'IncomeAppDB_v8'; let db; let firebaseDb;
+        const dbName = "IncomeAppDB_v10";
         const allDOMElements = { preloader: document.getElementById('preloader'), container: document.querySelector('.main-container'), totalEarningEl: document.getElementById('total-earning'), adCountEl: document.getElementById('ad-count'), adsTodayCountEl: document.getElementById('ads-today-count'), referralCountEl: document.getElementById('referral-count'), watchAdButton: document.getElementById('watch-ad-button'), withdrawForm: document.getElementById('withdraw-form'), adLoaderOverlay: document.getElementById('ad-loader-overlay'), profilePicEl: document.getElementById('profile-pic'), greetingEl: document.getElementById('greeting'), adminContactButton: document.getElementById('admin-contact-button'), copyLinkButton: document.getElementById('copy-link-button'), shareLinkButton: document.getElementById('share-link-button'), historyListEl: document.getElementById('history-list'), minWithdrawText: document.getElementById('min-withdraw-text'), microTasksListEl: document.getElementById('micro-tasks-list') };
         
         // --- CORE & UTILITY FUNCTIONS ---
