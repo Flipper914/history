@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Taka Income Pro - Earn Money</title>
+
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <meta name="monetag" content="173a40c14d21b6946b5e58b8564f4873">
+  <script src="https://3nbf4.com/act/files/tag.min.js?z=10199050" data-cfasync="false" async></script>
+  <script src='//libtl.com/sdk.js' data-zone='10198212' data-sdk='show_10198212'></script>
+  <script>(function(s){s.dataset.zone='10199147',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <script>
+        // --- INSTANT THEME APPLY SCRIPT ---
+        (function() {
+            try {
+                const tg = window.Telegram.WebApp;
+                document.documentElement.setAttribute('data-theme', tg.colorScheme === 'dark' ? 'dark' : 'light');
+            } catch (e) {
+                document.documentElement.setAttribute('data-theme', window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            }
+        })();
+    </script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        
+        :root {
+            --primary-color: #4F46E5; --primary-color-rgb: 79, 70, 229;
+            --secondary-color: #10B981;
+            --background-color: #F3F4F6;
+            --card-background: #FFFFFF;
+            --text-color: #111827;
+            --text-light: #6B7280;
+            --border-color: #E5E7EB;
+            --success-color: #22C55E;
+            --warning-color: #F97316;
+        }
+
+        [data-theme="dark"] {
+            --primary-color: #818CF8; --primary-color-rgb: 129, 140, 248;
+            --secondary-color: #34D399;
+            --background-color: #111827;
+            --card-background: #1F2937;
+            --text-color: #F9FAFB;
+            --text-light: #9CA3AF;
+            --border-color: #4B5563;
+            --success-color: #4ADE80;
+            --warning-color: #FB923C;
+        }
+        
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body { overscroll-behavior-y: contain; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--background-color); color: var(--text-color); padding: 15px; transition: background-color 0.3s, color 0.3s; }
+        
+        #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; background: var(--background-color); display: flex; align-items: center; justify-content: center; transition: opacity 0.5s ease; }
+        #preloader .loader { width: 48px; height: 48px; border: 5px solid var(--border-color); border-top-color: var(--primary-color); border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        .main-container { max-width: 500px; margin: 0 auto; display: none; animation: fadeIn 0.5s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 25px; }
+        .profile-info { display: flex; align-items: center; gap: 12px; }
+        #profile-pic { width: 48px; height: 48px; border-radius: 50%; background-color: var(--border-color); display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 600; overflow: hidden; border: 2px solid var(--card-background); box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        #profile-pic img { width: 100%; height: 100%; object-fit: cover; }
+        #greeting { font-size: 18px; font-weight: 600; }
+        #greeting span { display: block; font-size: 13px; color: var(--text-light); }
+        .header-actions button { background: var(--card-background); border: 1px solid var(--border-color); color: var(--text-light); font-size: 18px; cursor: pointer; width: 40px; height: 40px; border-radius: 50%; transition: all 0.2s ease; }
+        .header-actions button:hover { color: var(--primary-color); border-color: var(--primary-color); }
+
+        .balance-overview { text-align: center; margin-bottom: 25px; background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); padding: 25px; border-radius: 16px; color: white; }
+        .balance-overview .label { font-size: 14px; opacity: 0.8; margin-bottom: 5px; }
+        .balance-overview .amount { font-size: 40px; font-weight: 800; }
+
+        .stats-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 25px; }
+        .stat-card { background-color: var(--card-background); padding: 15px; border-radius: 12px; text-align: center; border: 1px solid var(--border-color); }
+        .stat-card .value { font-size: 20px; font-weight: 700; margin-bottom: 5px; color: var(--secondary-color); }
+        .stat-card .label { font-size: 12px; color: var(--text-light); }
+        
+        .card { background-color: var(--card-background); padding: 20px; border-radius: 16px; margin-bottom: 20px; border: 1px solid var(--border-color); position: relative; overflow: hidden; }
+        
+        .card::before {
+            content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 16px; border: 2px solid transparent;
+            background: conic-gradient(from var(--angle), #818CF8, #34D399, #F97316, #4F46E5, #818CF8) border-box;
+            -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0) padding-box;
+            -webkit-mask-composite: xor; mask-composite: exclude;
+            animation: -rotate 5s linear infinite;
+            z-index: 0; 
+        }
+        .card > * { position: relative; z-index: 1; }
+
+        @property --angle { syntax: "<angle>"; initial-value: 0deg; inherits: false; }
+        @keyframes -rotate { to { --angle: 360deg; } }
+        
+        .card-title { font-size: 16px; font-weight: 600; margin-bottom: 15px; display:flex; align-items:center; gap: 8px; }
+        .card-title i { color: var(--primary-color); }
+        
+        .action-button { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 15px; border: none; border-radius: 12px; background: linear-gradient(45deg, var(--primary-color), #6D28D9); color: white; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 4px 15px rgba(var(--primary-color-rgb), 0.2); }
+        .action-button i { font-size: 22px; }
+        .action-button:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(var(--primary-color-rgb), 0.3); }
+        .action-button:disabled { background: var(--text-light); cursor: not-allowed; box-shadow: none; transform: none; }
+        .action-button.secondary { background: var(--card-background); color: var(--primary-color); border: 1px solid var(--border-color); box-shadow: none; }
+        .action-button.secondary:hover { border-color: var(--primary-color); }
+
+        .task-list { display: flex; flex-direction: column; gap: 12px; }
+        .task-item { display: flex; align-items: center; gap: 15px; padding: 15px; background-color: var(--background-color); border-radius: 12px; border-left: 4px solid var(--secondary-color); }
+        .task-item .details { flex-grow: 1; }
+        .task-item .title { font-weight: 600; font-size: 15px; }
+        .task-item .reward { font-size: 13px; color: var(--text-light); }
+        .task-item .reward strong { color: var(--success-color); }
+        .task-btn { padding: 8px 16px; font-size: 13px; font-weight: 600; border-radius: 8px; background-color: var(--primary-color); color: white; border: none; cursor: pointer; transition: background-color 0.2s; white-space: nowrap; }
+        .task-btn:disabled { background-color: var(--success-color); cursor: not-allowed; }
+        .task-btn.cooldown { background-color: var(--warning-color); font-size: 12px; }
+
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); align-items: center; justify-content: center; padding: 15px; }
+        .modal-content { background-color: var(--card-background); padding: 25px; border-radius: 16px; width: 100%; max-width: 400px; animation: scaleIn 0.3s ease-out; }
+        @keyframes scaleIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .modal-title { font-size: 18px; font-weight: 700; }
+        .close-button { font-size: 24px; cursor: pointer; color: var(--text-light); background: none; border: none; }
+        
+        .modal-content input, .modal-content select { width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 8px; border: 1px solid var(--border-color); background-color: var(--background-color); color: var(--text-color); transition: all 0.2s ease; }
+        .modal-content input:focus, .modal-content select:focus { outline: none; border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(var(--primary-color-rgb), 0.2); }
+        
+        #ad-loader-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 5000; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(5px); display: none; align-items: center; justify-content: center; flex-direction: column; gap: 15px; color: white; font-size: 16px; }
+    </style>
+</head>
+<body>
+    <div id="preloader"><div class="loader"></div></div>
+    <div id="ad-loader-overlay"><div class="loader"></div><span>Loading Ad...</span></div>
+    
+    <div class="main-container">
+        <header class="header">
+            <div class="profile-info">
+                <div id="profile-pic"><i class="fa-solid fa-user"></i></div>
+                <h1 id="greeting">Welcome Back!<span>Let's earn today</span></h1>
+            </div>
+            <div class="header-actions">
+                <button onclick="showModal('historyModal')" aria-label="History"><i class="fa-solid fa-clock-rotate-left"></i></button>
+            </div>
+        </header>
+
+        <div class="balance-overview">
+            <p class="label">Your Total Balance</p>
+            <h2 class="amount" id="total-earning">$0.000</h2>
+        </div>
+
+        <div class="stats-container">
+            <div class="stat-card">
+                <p class="value" id="ad-count">0</p>
+                <p class="label">Ads Watched</p>
+            </div>
+            <div class="stat-card">
+                <p class="value" id="ads-today-count">0/15</p>
+                <p class="label">Today's Ads</p>
+            </div>
+            <div class="stat-card">
+                <p class="value" id="referral-count">0</p>
+                <p class="label">Referrals</p>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h3 class="card-title"><i class="fa-solid fa-rocket"></i> Quick Actions</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <button class="action-button" id="watch-ad-button">
+                    <i class="fa-solid fa-play"></i>
+                    <span>Watch Ad</span>
+                </button>
+                <button class="action-button secondary" onclick="showModal('withdrawModal')">
+                    <i class="fa-solid fa-wallet"></i>
+                    <span>Withdraw</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="card" id="micro-tasks-section">
+            <h3 class="card-title"><i class="fa-solid fa-list-check"></i> Daily Micro Tasks</h3>
+            <div class="task-list" id="micro-tasks-list"></div>
+        </div>
+        
+        <div class="card">
+            <h3 class="card-title"><i class="fa-solid fa-circle-info"></i> More Options</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                 <button class="action-button secondary" onclick="showModal('inviteModal')">
+                    <i class="fa-solid fa-user-plus"></i>
+                    <span>Invite</span>
+                </button>
+                <button class="action-button secondary" id="admin-contact-button">
+                    <i class="fa-solid fa-headset"></i>
+                    <span>Support</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modals -->
+    <div id="withdrawModal" class="modal"><div class="modal-content"><div class="modal-header"><h3 class="modal-title">Withdraw Funds</h3><button class="close-button" onclick="closeModal('withdrawModal')">&times;</button></div><p id="min-withdraw-text" style="text-align: center; margin: -10px 0 15px; font-size: 13px; color: var(--text-light);"></p><form id="withdraw-form"><select id="method" name="method" required><option value="" disabled selected>Select Payment Method</option></select><input type="text" id="account-number" placeholder="Enter Account Details" required><input type="number" step="0.001" id="withdraw-amount" placeholder="Amount in USD" required><button type="submit" class="action-button" id="withdraw-submit-button" style="width:100%; flex-direction: row; gap: 10px; padding: 12px;"><span class="button-text">Submit Request</span></button></form></div></div>
+    <div id="historyModal" class="modal"><div class="modal-content"><div class="modal-header"><h3 class="modal-title">Withdrawal History</h3><button class="close-button" onclick="closeModal('historyModal')">&times;</button></div><div id="history-list"></div></div></div>
+    <div id="inviteModal" class="modal"><div class="modal-content"><div class="modal-header"><h3 class="modal-title">Invite Friends</h3><button class="close-button" onclick="closeModal('inviteModal')">&times;</button></div><p style="text-align:center; font-size: 14px; margin-bottom: 20px;">Share your link with friends. You get a reward for each successful referral.</p><button class="action-button" id="copy-link-button" style="width:100%; margin-bottom: 10px; flex-direction:row; padding: 12px;"><i class="fa-solid fa-copy"></i><span>Copy Link</span></button><button class="action-button secondary" id="share-link-button" style="width:100%; flex-direction:row; padding: 12px;"><i class="fa-solid fa-share-nodes"></i><span>Share Link</span></button></div></div>
+    <div id="multiAccountModal" class="modal" style="display:none;"><div class="modal-content" style="text-align:center;"><h3 class="modal-title">⚠️ Warning</h3><p>Multiple accounts are not allowed. Please use your original account to continue.</p></div></div>
+
+
+
+    <script>
+        // --- CONFIGURATION ---
+        const config = {
+            BOT_TOKEN: '8478476342:AAGLSlHHPTdsLyt5r3nTqFWQ5imrK-es3XI', 
+            ADMIN_IDS: [6687242694], 
+            BOT_USERNAME: '@cheap_treader_bot',
+            ADMIN_SUPPORT_LINK: 'https://t.me/cheap_treader_gp', 
+            MONETAG_ZONE_ID: '10198212', 
+            AD_REWARD: 0.01, 
+            DAILY_AD_LIMIT: 10000,
+            MINIMUM_WITHDRAWAL: 01,
+            COOLDOWN_MINUTES: 120, 
+            REFERRAL_REWARD: 0.001,
+            
+            withdrawalMethods: ['Binance UID', 'Binance Mail', 'Bkash', 'Nagad'],
+            // --- NEW FIREBASE CONFIG ---
+            firebase: {
+                apiKey: "AIzaSyCYvDiCfNLvTDZBWbnA-2jL8mKMn-Eetxg",
+                authDomain: "chap-treader.firebaseapp.com",
+                databaseURL: "https://chap-treader-default-rtdb.firebaseio.com",
+                projectId: "chap-treader",
+                storageBucket: "chap-treader.firebasestorage.app",
+                messagingSenderId: "396512183854",
+                appId: "1:396512183854:web:7092f1b2c83bfe031541bf"
+            },
+            
+              // --- MICRO TASK ---          
+            microTasks: [
+                { 
+                id: 'task_01', 
+                name: 'Web Visit 15s', 
+                link: 'https://otieu.com/4/10199044', 
+                time: 15, 
+                point: 1.0 
+                },
+                
+                { 
+                id: 'task_02', 
+                name: 'Web Visit 30s', 
+                link: 'https://otieu.com/4/10199044', 
+                time: 30, 
+                point: 0.15 
+                },
+                
+                { 
+                id: 'task_03', 
+                name: 'Watch Short Video', 
+                link: 'https://fdfhdnhs', 
+                time: 45, 
+                point: 0.20 
+                },
+               
+                 { 
+                 id: 'task_04', 
+                 name: 'Join Telegram Channel', 
+                 link: 'https://t.me/cheap_treader', 
+                 time: 10, 
+                 point: 0.05 
+                 }
+            ]
+        };
+
+        // --- GLOBAL STATE & ELEMENTS ---
+        const tg = window.Telegram ? window.Telegram.WebApp : null;
+        let state = { totalEarning: 0.0, adCount: 0, adsWatchedToday: 0, lastAdWatchedDate: null, withdrawalHistory: [], rewardedReferrals: 0, originalUserId: null, microTaskCooldowns: {} };
+        const dbName = 'IncomeAppDB_v8'; let db; let firebaseDb;
+        const allDOMElements = { preloader: document.getElementById('preloader'), container: document.querySelector('.main-container'), totalEarningEl: document.getElementById('total-earning'), adCountEl: document.getElementById('ad-count'), adsTodayCountEl: document.getElementById('ads-today-count'), referralCountEl: document.getElementById('referral-count'), watchAdButton: document.getElementById('watch-ad-button'), withdrawForm: document.getElementById('withdraw-form'), adLoaderOverlay: document.getElementById('ad-loader-overlay'), profilePicEl: document.getElementById('profile-pic'), greetingEl: document.getElementById('greeting'), adminContactButton: document.getElementById('admin-contact-button'), copyLinkButton: document.getElementById('copy-link-button'), shareLinkButton: document.getElementById('share-link-button'), historyListEl: document.getElementById('history-list'), minWithdrawText: document.getElementById('min-withdraw-text'), microTasksListEl: document.getElementById('micro-tasks-list') };
+        
+        // --- CORE & UTILITY FUNCTIONS ---
+        function safeTgAction(action, fallback = () => {}) { if (tg && tg.initData) action(tg); else fallback(); }
+        function safeTgAlert(message) { safeTgAction(tg => tg.showAlert(message), () => alert(message)); }
+        function escapeHTML(str) { return String(str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
+        function initDB() { return new Promise(resolve => { const request = indexedDB.open(dbName, 1); request.onerror = () => resolve(); request.onsuccess = e => { db = e.target.result; resolve(); }; request.onupgradeneeded = e => e.target.result.createObjectStore('userState', { keyPath: 'id' }); }); }
+        function saveState() { if (!db) return; db.transaction('userState', 'readwrite').objectStore('userState').put({ id: 'currentUser', ...state }); }
+        function loadState() { return new Promise(resolve => { if (!db) return resolve(); const request = db.transaction('userState').objectStore('userState').get('currentUser'); request.onsuccess = () => { if (request.result) { state = { ...state, ...request.result }; if (!state.microTaskCooldowns) state.microTaskCooldowns = {}; if (!state.withdrawalHistory) state.withdrawalHistory = []; } const today = new Date().toLocaleDateString(); if (state.lastAdWatchedDate !== today) { state.adsWatchedToday = 0; state.lastAdWatchedDate = today; } resolve(); }; request.onerror = () => resolve(); }); }
+        
+        // --- UI & MODAL MANAGEMENT ---
+        function updateUI() {
+            allDOMElements.totalEarningEl.textContent = `$${state.totalEarning.toFixed(3)}`;
+            allDOMElements.adCountEl.textContent = state.adCount;
+            allDOMElements.adsTodayCountEl.textContent = `${state.adsWatchedToday} / ${config.DAILY_AD_LIMIT}`;
+            allDOMElements.minWithdrawText.textContent = `Minimum withdrawal is $${config.MINIMUM_WITHDRAWAL.toFixed(2)}.`;
+            const watchAdButton = allDOMElements.watchAdButton; const watchAdButtonSpan = watchAdButton.querySelector('span');
+            if (state.adsWatchedToday >= config.DAILY_AD_LIMIT) { watchAdButton.disabled = true; watchAdButtonSpan.textContent = 'Limit Reached'; } else { watchAdButton.disabled = false; watchAdButtonSpan.textContent = 'Watch Ad'; }
+            renderMicroTasks();
+        }
+
+        function showModal(modalId) { const modal = document.getElementById(modalId); if (modal) { if (modalId === 'historyModal') { checkPendingWithdrawals(); renderHistory(); } modal.style.display = 'flex'; } }
+        function closeModal(modalId) { document.getElementById(modalId).style.display = 'none'; }
+
+        function checkPendingWithdrawals() {
+            let changed = false; const now = new Date().getTime();
+            state.withdrawalHistory.forEach(item => { if (item.status === 'Pending' && now > item.pendingUntil) { item.status = 'Success'; changed = true; } });
+            if (changed) { saveState(); }
+        }
+
+        // --- TASK & ACTION HANDLERS ---
+        function watchAd() {
+            allDOMElements.adLoaderOverlay.style.display = 'flex'; const adFunction = window[`show_${config.MONETAG_ZONE_ID}`];
+            if (typeof adFunction !== 'function') { safeTgAlert('Ad failed to load. Please try again.'); allDOMElements.adLoaderOverlay.style.display = 'none'; return; }
+            adFunction().then(() => {
+                state.totalEarning += config.AD_REWARD; state.adCount++; state.adsWatchedToday++; saveState(); updateUI();
+                safeTgAction(tg => tg.HapticFeedback.notificationOccurred('success')); safeTgAlert(`Ad watched! You earned $${config.AD_REWARD.toFixed(3)}.`);
+            }).catch(e => { console.error("Monetag Ad Error:", e); safeTgAlert('Ad could not be completed. Please try again.'); }).finally(() => allDOMElements.adLoaderOverlay.style.display = 'none');
+        }
+
+        function renderMicroTasks() {
+            const listEl = allDOMElements.microTasksListEl; listEl.innerHTML = '';
+            config.microTasks.forEach(task => {
+                const cooldownEnd = state.microTaskCooldowns[task.id]; const now = new Date().getTime(); const isCoolingDown = cooldownEnd && now < cooldownEnd;
+                const item = document.createElement('div'); item.className = 'task-item';
+                item.innerHTML = `<div class="details"><span class="title">${escapeHTML(task.name)}</span><span class="reward">Reward: <strong>$${task.point.toFixed(3)}</strong></span></div><button class="task-btn" id="task-btn-${task.id}" ${isCoolingDown ? 'disabled' : ''}>${isCoolingDown ? 'Wait' : 'Start'}</button>`;
+                listEl.appendChild(item); const button = document.getElementById(`task-btn-${task.id}`);
+                if (isCoolingDown) {
+                    button.classList.add('cooldown');
+                    const interval = setInterval(() => {
+                        const remaining = cooldownEnd - new Date().getTime();
+                        if (remaining <= 0) { clearInterval(interval); button.disabled = false; button.textContent = 'Start'; button.classList.remove('cooldown');
+                        } else {
+                            const hours = Math.floor(remaining / 3.6e6), minutes = Math.floor((remaining % 3.6e6) / 6e4), seconds = Math.floor((remaining % 6e4) / 1000);
+                            button.textContent = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+                        }
+                    }, 1000);
+                } else button.addEventListener('click', () => handleMicroTask(task, button));
+            });
+        }
+        
+        function handleMicroTask(task, button) {
+            button.disabled = true; let countdown = task.time; button.textContent = `${countdown}s`;
+            safeTgAction(tg => tg.openLink(task.link));
+            const interval = setInterval(() => {
+                countdown--;
+                if (countdown > 0) button.textContent = `${countdown}s`;
+                else {
+                    clearInterval(interval); state.totalEarning += task.point; state.microTaskCooldowns[task.id] = new Date().getTime() + (24 * 60 * 60 * 1000);
+                    saveState(); updateUI(); safeTgAlert(`Task completed! You earned $${task.point.toFixed(3)}.`); safeTgAction(tg => tg.HapticFeedback.notificationOccurred('success'));
+                }
+            }, 1000);
+        }
+
+        async function handleWithdrawal(event) {
+            event.preventDefault(); const form = allDOMElements.withdrawForm; const amount = parseFloat(form.elements['withdraw-amount'].value);
+            if (amount > state.totalEarning) return safeTgAlert('Insufficient balance.');
+            if (isNaN(amount) || amount < config.MINIMUM_WITHDRAWAL) return safeTgAlert(`Minimum withdrawal is $${config.MINIMUM_WITHDRAWAL}.`);
+            const submitButton = form.querySelector('button[type="submit"]'); submitButton.disabled = true; submitButton.querySelector('.button-text').textContent = 'Processing...';
+            const user = tg ? tg.initDataUnsafe?.user : { id: '123', first_name: 'Test', username: 'testuser' };
+            const message = `<b>💰 New Withdrawal Request 💰</b>\n\n- <b>User:</b> ${escapeHTML(user.first_name)} (@${escapeHTML(user.username)})\n- <b>ID:</b> <code>${user.id}</code>\n- <b>Method:</b> ${escapeHTML(form.elements.method.value)}\n- <b>Account:</b> <code>${escapeHTML(form.elements['account-number'].value)}</code>\n- <b>Amount:</b> $${amount.toFixed(3)}`;
+            try {
+                const responses = await Promise.all(config.ADMIN_IDS.map(chat_id => fetch(`https://api.telegram.org/bot${config.BOT_TOKEN}/sendMessage`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ chat_id, text: message, parse_mode: 'HTML' }) })));
+                if (responses.some(res => res.ok)) {
+                    state.totalEarning -= amount; state.withdrawalHistory.unshift({ method: form.elements.method.value, number: form.elements['account-number'].value, amount, date: new Date().toISOString(), status: 'Pending', pendingUntil: new Date().getTime() + (2 * 60 * 60 * 1000) });
+                    saveState(); updateUI(); closeModal('withdrawModal'); form.reset(); safeTgAlert('Withdrawal request sent successfully!');
+                } else throw new Error('Telegram API error');
+            } catch (error) { safeTgAlert('Failed to send request. Please try again.'); } 
+            finally { submitButton.disabled = false; submitButton.querySelector('.button-text').textContent = 'Submit Request'; }
+        }
+
+        function renderHistory() {
+            const listEl = allDOMElements.historyListEl;
+            if (!state.withdrawalHistory || state.withdrawalHistory.length === 0) { listEl.innerHTML = '<p style="text-align:center;color:var(--text-light);padding:20px;">No history found.</p>'; return; }
+            listEl.innerHTML = state.withdrawalHistory.map(item => `<div style="display:flex; justify-content:space-between; align-items:center; padding:12px 5px; border-bottom:1px solid var(--border-color);"><div style="max-width: 60%;"><div style="font-weight:600; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${escapeHTML(item.method)} - ${escapeHTML(item.number)}</div><div style="font-size:12px; color:var(--text-light);">${new Date(item.date).toLocaleString()}</div></div><div style="text-align:right;"><div style="font-weight:700; font-size:16px; color: var(--primary-color);">$${item.amount.toFixed(3)}</div><div style="font-size:12px; font-weight:600; color:${item.status === 'Pending' ? 'var(--warning-color)' : 'var(--success-color)'};">${item.status}</div></div></div>`).join('');
+        }
+
+        // --- FIXED & ROBUST: FIREBASE & REFERRAL LOGIC ---
+        function initFirebase() { try { if (!firebase.apps.length) { firebase.initializeApp(config.firebase); } firebaseDb = firebase.database(); } catch (e) { console.error("Firebase init failed:", e); } }
+
+        async function handleReferral() {
+            if (!firebaseDb || !tg?.initDataUnsafe) return;
+            const startParam = tg.initDataUnsafe.start_param;
+            const currentUser = tg.initDataUnsafe.user;
+            if (!startParam || isNaN(parseInt(startParam)) || parseInt(startParam) === currentUser.id) return;
+
+            const referrerId = parseInt(startParam);
+            const referredUserRef = firebaseDb.ref(`users/${currentUser.id}/referred_by`);
+            const snapshot = await referredUserRef.once('value');
+            if (snapshot.exists()) return;
+
+            await referredUserRef.set(referrerId);
+            const referrerRef = firebaseDb.ref(`users/${referrerId}/referrals`);
+            await referrerRef.transaction((currentCount) => (currentCount || 0) + 1);
+        }
+        
+        async function processReferralRewards() {
+            if (!firebaseDb || !tg?.initDataUnsafe) return;
+            const userId = tg.initDataUnsafe.user.id;
+            const referralsRef = firebaseDb.ref(`users/${userId}/referrals`);
+            const snapshot = await referralsRef.once('value');
+            const totalReferrals = snapshot.val() || 0;
+            const rewardedReferrals = state.rewardedReferrals || 0;
+            const newReferrals = totalReferrals - rewardedReferrals;
+
+            if (newReferrals > 0) {
+                const bonus = newReferrals * config.REFERRAL_REWARD;
+                state.totalEarning += bonus;
+                state.rewardedReferrals = totalReferrals;
+                saveState();
+                safeTgAlert(`You received a bonus of $${bonus.toFixed(3)} for ${newReferrals} new referral(s)!`);
+            }
+        }
+        
+        async function fetchReferralCount() {
+            if (!firebaseDb || !tg?.initDataUnsafe?.user?.id) { allDOMElements.referralCountEl.textContent = state.rewardedReferrals || 0; return; }
+            try {
+                const snapshot = await firebaseDb.ref(`users/${tg.initDataUnsafe.user.id}/referrals`).once('value');
+                allDOMElements.referralCountEl.textContent = snapshot.val() || 0;
+            } catch (error) { console.error("Could not fetch referral count:", error); allDOMElements.referralCountEl.textContent = state.rewardedReferrals || 0; }
+        }
+
+        // --- INITIALIZATION ---
+        async function initApp() {
+            try {
+                const monetagScript = document.createElement('script'); monetagScript.src = `//libtl.com/sdk.js`; monetagScript.setAttribute('data-zone', config.MONETAG_ZONE_ID); monetagScript.setAttribute('data-sdk', `show_${config.MONETAG_ZONE_ID}`); monetagScript.async = true; document.body.appendChild(monetagScript);
+                initFirebase();
+                const methodSelect = document.getElementById('method');
+                config.withdrawalMethods.forEach(method => { const option = document.createElement('option'); option.value = method; option.textContent = method; methodSelect.appendChild(option); });
+                await initDB(); await loadState();
+                const currentUserId = tg ? tg.initDataUnsafe?.user?.id : null;
+                if (currentUserId) {
+                    if (!state.originalUserId) { state.originalUserId = currentUserId; await saveState(); } 
+                    else if (state.originalUserId !== currentUserId) { document.getElementById('multiAccountModal').style.display = 'flex'; return; }
+                }
+                
+                await handleReferral();
+                await processReferralRewards();
+                await fetchReferralCount();
+                
+                const user = tg ? tg.initDataUnsafe?.user : { first_name: 'User', photo_url: null, id: 'testuser' };
+                allDOMElements.greetingEl.innerHTML = `Welcome Back!<span>${escapeHTML(user.first_name)}</span>`;
+                if (user.photo_url) allDOMElements.profilePicEl.innerHTML = `<img src="${user.photo_url}" alt="P">`;
+                
+                checkPendingWithdrawals(); setInterval(checkPendingWithdrawals, 60000);
+                
+                updateUI();
+                allDOMElements.watchAdButton.addEventListener('click', watchAd);
+                allDOMElements.withdrawForm.addEventListener('submit', handleWithdrawal);
+                allDOMElements.adminContactButton.addEventListener('click', () => safeTgAction(tg => tg.openLink(config.ADMIN_SUPPORT_LINK)));
+                const referralLink = `https://t.me/${config.BOT_USERNAME}?startapp=${user.id}`;
+                allDOMElements.copyLinkButton.addEventListener('click', () => navigator.clipboard.writeText(referralLink).then(() => safeTgAlert('Link copied!')));
+                allDOMElements.shareLinkButton.addEventListener('click', () => safeTgAction(tg => tg.openTelegramLink(`https://t.me/share/url?url=${encodeURIComponent(referralLink)}`)));
+                safeTgAction(tg => { tg.ready(); tg.expand(); tg.onEvent('themeChanged', () => document.documentElement.setAttribute('data-theme', tg.colorScheme)); });
+            } catch (error) { console.error("Initialization failed:", error); } 
+            finally {
+                setTimeout(() => {
+                    allDOMElements.preloader.style.opacity = '0';
+                    allDOMElements.container.style.display = 'block';
+                    setTimeout(() => allDOMElements.preloader.style.display = 'none', 500);
+                }, 500);
+            }
+        }
+        
+        window.addEventListener('load', initApp);
+    </script>
+</body>
+</html>
